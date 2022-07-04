@@ -1,5 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
-import { DynamicModule, Module } from '@nestjs/common';
+import { CacheModule, DynamicModule, Module } from '@nestjs/common';
+
 import { AggregatorController } from './aggregator.controller';
 import { ENVIRONMENT_TOKEN } from './constants/environment-token.constant';
 import { Environment } from './models/environment.model';
@@ -13,7 +14,12 @@ export class AggregatorModule {
   static register(environment: Environment): DynamicModule {
     return {
       module: AggregatorModule,
-      imports: [HttpModule],
+      imports: [
+        HttpModule,
+        CacheModule.register({
+          ttl: environment.cacheTime,
+        }),
+      ],
       controllers: [AggregatorController],
       providers: [
         {
