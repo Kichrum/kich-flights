@@ -4,8 +4,11 @@ import { AggregatorController } from './aggregator.controller';
 import { ENVIRONMENT_TOKEN } from './constants/environment-token.constant';
 import { Environment } from './models/environment.model';
 import { ApiService } from './services/api/api.service';
+import { AggregatorService } from './services/aggregator/aggregator.service';
 
-@Module({})
+@Module({
+  providers: [AggregatorService],
+})
 export class AggregatorModule {
   static register(environment: Environment): DynamicModule {
     return {
