@@ -1,9 +1,20 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { AggregatorController } from './aggregator.controller';
+import { ENVIRONMENT_TOKEN } from './constants';
+import { Environment } from './models';
 
-@Module({
-  controllers: [AggregatorController],
-  providers: [],
-  exports: [],
-})
-export class AggregatorModule {}
+@Module({})
+export class AggregatorModule {
+  static register(environment: Environment): DynamicModule {
+    return {
+      module: AggregatorModule,
+      controllers: [AggregatorController],
+      providers: [
+        {
+          provide: ENVIRONMENT_TOKEN,
+          useValue: environment,
+        },
+      ],
+    };
+  }
+}
