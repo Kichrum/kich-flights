@@ -1,15 +1,12 @@
-import {Controller, Get, Inject} from '@nestjs/common';
-import { ENVIRONMENT_TOKEN } from './constants/environment-token.constant';
-import { Environment } from './models';
+import { Controller, Get } from '@nestjs/common';
+import { ApiService } from './services/api/api.service';
 
 @Controller('aggregator')
 export class AggregatorController {
-  constructor(
-    @Inject(ENVIRONMENT_TOKEN) private readonly environment: Environment
-  ) {}
+  constructor(private readonly apiService: ApiService) {}
 
   @Get()
   getData() {
-    return this.environment.sources;
+    return this.apiService.fetchFlights();
   }
 }
