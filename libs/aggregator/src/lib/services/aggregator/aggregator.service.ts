@@ -11,9 +11,9 @@ import {
 } from 'rxjs';
 import { ENVIRONMENT_TOKEN } from '../../constants/environment-token.constant';
 import { ALL_SOURCES_FAILED_ERROR_CODE } from '../../constants/errors.constants';
-import { reduceUniqueFlights } from '../../helpers/reduce-unique-flights.helper';
 import { Environment } from '../../models/environment.model';
 import { Flight } from '../../models/flight.model';
+import { UniqueFlights } from '../../models/unique-flights.model';
 import { ApiService } from '../api/api.service';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class AggregatorService {
 
   getAggregatedFlights(): Observable<Flight[]> {
     return combineLatest(this.flightObservables).pipe(
-      map((flights) => reduceUniqueFlights(flights)),
+      map((flights) => new UniqueFlights(flights).data),
       finalize(() => (this.errorsCount = 0))
     );
   }
