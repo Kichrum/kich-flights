@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Cache } from 'cache-manager';
+
 import { Flight, FlightsApiResponse } from '../../models/flight.model';
 
 @Injectable()

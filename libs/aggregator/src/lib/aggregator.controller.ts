@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { catchError, Observable, throwError } from 'rxjs';
+
 import { ALL_SOURCES_FAILED_ERROR } from './constants/errors.constants';
 import { Flight } from './models/flight.model';
 import { AggregatorService } from './services/aggregator/aggregator.service';

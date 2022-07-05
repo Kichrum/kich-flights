@@ -1,8 +1,13 @@
-export interface Environment {
+interface FetchingConfig {
+  cacheTime: number;
   sources: string[];
   timeout: number;
-  cacheTime: number;
-  redisHost?: string;
-  redisPort?: number;
-  redisToken?: string;
 }
+
+interface RedisConfig {
+  redisHost: string;
+  redisPort: number;
+  redisToken: string;
+}
+
+export interface Environment extends FetchingConfig, Partial<RedisConfig> {}

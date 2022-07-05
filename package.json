@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nx serve kichflights",
     "build": "nx build kichflights",
-    "test:all": "run-many --all --target=test",
+    "test:all": "nx run-many --all --target=test",
     "test": "nx test"
   },
   "private": true,

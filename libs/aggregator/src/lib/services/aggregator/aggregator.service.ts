@@ -9,6 +9,7 @@ import {
   throwError,
   timeout,
 } from 'rxjs';
+
 import { ENVIRONMENT_TOKEN } from '../../constants/environment-token.constant';
 import { ALL_SOURCES_FAILED_ERROR_CODE } from '../../constants/errors.constants';
 import { Environment } from '../../models/environment.model';
