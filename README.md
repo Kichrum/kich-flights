@@ -4,10 +4,11 @@ This project was implemented using [Nx](https://nx.dev).
 
 ## Configure
 
-Update `apps/kichflights/src/environments/environment.default.ts:16` with the Redis config provided separately.
+Update `apps/kichflights/src/environments/environment.ts` with the Redis config and link of sources provided separately.
+
 The Redis Password has to be taken by the app from Secure Vault or similar service as a part of CI/CD process.
 
-By default, instance's memory will be used.
+By default, instance's in-memory cache will be used.
 
 ## Install dependencies
 

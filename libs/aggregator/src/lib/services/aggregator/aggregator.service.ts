@@ -27,20 +27,19 @@ export class AggregatorService {
   ) {}
 
   getAggregatedFlights(): Observable<Flight[]> {
-    return combineLatest(this.flightObservables).pipe(
+    const observables = this.flightObservables;
+    return (observables.length ? combineLatest(observables) : of([])).pipe(
       map((flights) => new UniqueFlights(flights).data),
       finalize(() => (this.errorsCount = 0))
     );
   }
 
   private get flightObservables(): Observable<Flight[]>[] {
-    return []
-      .concat(this.environment.sources)
-      .map((url) =>
-        this.apiService
-          .fetchFlightsFromSource(url)
-          .pipe(timeout(this.environment.timeout), catchError(this.catchError))
-      );
+    return this.environment.sources.map((url) =>
+      this.apiService
+        .fetchFlightsFromSource(url)
+        .pipe(timeout(this.environment.timeout), catchError(this.catchError))
+    );
   }
 
   private catchError = (error): Observable<[]> => {
