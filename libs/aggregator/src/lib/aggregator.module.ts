@@ -8,9 +8,7 @@ import { Environment } from './models/environment.model';
 import { ApiService } from './services/api/api.service';
 import { AggregatorService } from './services/aggregator/aggregator.service';
 
-@Module({
-  providers: [AggregatorService],
-})
+@Module({})
 export class AggregatorModule {
   static register(environment: Environment): DynamicModule {
     const redisConfig = !environment.redisToken
@@ -36,6 +34,7 @@ export class AggregatorModule {
           provide: ENVIRONMENT_TOKEN,
           useValue: environment,
         },
+        AggregatorService,
         ApiService,
       ],
     };
