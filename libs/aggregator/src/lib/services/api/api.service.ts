@@ -8,7 +8,7 @@ import { Flight, FlightsApiResponse } from '../../models/flight.model';
 export class ApiService {
   constructor(
     private readonly httpService: HttpService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache
   ) {}
 
   fetchFlightsFromSource(url: string): Observable<Flight[]> {

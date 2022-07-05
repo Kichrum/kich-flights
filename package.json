@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve kichflights",
-    "build": "nx build",
+    "build": "nx build kichflights",
+    "test:all": "run-many --all --target=test",
     "test": "nx test"
   },
   "private": true,
