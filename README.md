@@ -23,9 +23,10 @@ Run `PORT=3334 npm start` to run a second instance.
 ## Test manually
 
 To test the project, use the following endpoint:
-http://localhost:3333/aggregator
+http://localhost:3333/api/v1/aggregator
 
-To reset the cache use this link: http://localhost:3333/aggregator/reset
+To reset the cache send the header: `Cache-Control: 'no-cache'`
+(or refresh the page in browser with "Empty cache and hard reload").
 
 ## Build
 

@@ -1,5 +1,8 @@
-export const ALL_SOURCES_FAILED_ERROR_CODE = 'ALL_SOURCES_FAILED_ERROR';
-export const ALL_SOURCES_FAILED_ERROR: Record<string, string> = {
-  code: ALL_SOURCES_FAILED_ERROR_CODE,
-  message: 'All sources failed',
+import { ErrorCode } from '../enums/error-code.enum';
+
+export const ERROR_BY_CODE: { [code in ErrorCode]: Record<string, string> } = {
+  [ErrorCode.AllSourcesFailed]: {
+    code: ErrorCode.AllSourcesFailed,
+    message: 'All sources failed',
+  },
 };

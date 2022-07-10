@@ -12,16 +12,32 @@ export class ApiService {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache
   ) {}
 
-  fetchFlightsFromSource(url: string): Observable<Flight[]> {
-    return from(this.cacheManager.get(url)).pipe(
-      switchMap((cachedFlights: Flight[]) =>
-        cachedFlights
-          ? of(cachedFlights)
-          : this.httpService.get<FlightsApiResponse>(url).pipe(
-              map((response) => response.data.flights),
-              tap((flights) => {
+  fetchFlightsFromSource(
+    url: string,
+    refreshCache?: boolean
+  ): Observable<Flight[]> {
+    return this.fetchDataFromUrl<FlightsApiResponse>(url, refreshCache).pipe(
+      map((response) => response.flights)
+    );
+  }
+
+  private fetchDataFromUrl<T>(
+    url: string,
+    refreshCache = false
+  ): Observable<T> {
+    return from(
+      refreshCache
+        ? this.cacheManager.reset().then(() => null)
+        : this.cacheManager.get(url)
+    ).pipe(
+      switchMap((cachedData: T) =>
+        cachedData
+          ? of(cachedData)
+          : this.httpService.get<T>(url).pipe(
+              map((response) => response.data),
+              tap((responseData) => {
                 console.log('Updating cache for source', url);
-                void this.cacheManager.set(url, flights);
+                void this.cacheManager.set(url, responseData);
               })
             )
       )

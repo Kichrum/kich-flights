@@ -2,10 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { catchError, delay, of, throwError } from 'rxjs';
 
 import { ENVIRONMENT_TOKEN } from '../../constants/environment-token.constant';
-import {
-  ALL_SOURCES_FAILED_ERROR,
-  ALL_SOURCES_FAILED_ERROR_CODE,
-} from '../../constants/errors.constants';
+import { ErrorCode } from '../../enums/error-code.enum';
 import { MOCK_FLIGHTS, MOCK_FLIGHTS_2 } from '../../mocks/flights.mocks';
 import { Flight } from '../../models/flight.model';
 import { ApiService } from '../api/api.service';
@@ -75,10 +72,7 @@ describe('AggregatorService', () => {
 
     expect(flights).toEqual(MOCK_FLIGHTS);
     expect(console.error).toHaveBeenCalledTimes(1);
-    expect(console.error).toHaveBeenCalledWith(
-      'Error #1',
-      'Timeout has occurred'
-    );
+    expect(console.error).toHaveBeenCalledWith('Error', 'Timeout has occurred');
   });
 
   it('should fail if both sources respond slowly', () => {
@@ -101,16 +95,9 @@ describe('AggregatorService', () => {
       .subscribe();
 
     expect(() => jest.advanceTimersByTime(TIMEOUT + 1)).toThrow();
-    expect(flightsError).toEqual(new Error(ALL_SOURCES_FAILED_ERROR_CODE));
+    expect(flightsError).toEqual(new Error(ErrorCode.AllSourcesFailed));
     expect(console.error).toHaveBeenCalledTimes(2);
-    expect(console.error).toHaveBeenCalledWith(
-      'Error #1',
-      'Timeout has occurred'
-    );
-    expect(console.error).toHaveBeenCalledWith(
-      'Error #2',
-      'Timeout has occurred'
-    );
+    expect(console.error).toHaveBeenCalledWith('Error', 'Timeout has occurred');
   });
 
   it('should ignore if some of sources errored', () => {
@@ -142,6 +129,6 @@ describe('AggregatorService', () => {
       )
       .subscribe();
 
-    expect(flightsError).toEqual(new Error(ALL_SOURCES_FAILED_ERROR_CODE));
+    expect(flightsError).toEqual(new Error(ErrorCode.AllSourcesFailed));
   });
 });

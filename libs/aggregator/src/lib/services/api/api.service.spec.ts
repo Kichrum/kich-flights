@@ -32,6 +32,7 @@ describe('ApiService', () => {
           useValue: {
             get: jest.fn().mockReturnValue(Promise.resolve()),
             set: jest.fn().mockReturnValue(Promise.resolve()),
+            reset: jest.fn().mockReturnValue(Promise.resolve()),
           },
         },
       ],
@@ -59,17 +60,27 @@ describe('ApiService', () => {
   it('should not call API if has cached value', async () => {
     let flights: Flight[];
 
-    jest.spyOn(cacheManager, 'get').mockReturnValue(Promise.resolve({}));
+    jest
+      .spyOn(cacheManager, 'get')
+      .mockReturnValue(Promise.resolve({ flights: MOCK_FLIGHTS }));
 
     await service
       .fetchFlightsFromSource(MOCK_URL)
       .subscribe((res) => (flights = res));
     expect(httpService.get).not.toHaveBeenCalled();
-    expect(flights).toEqual({});
+    expect(flights).toEqual(MOCK_FLIGHTS);
   });
 
   it('should update cache', async () => {
     await service.fetchFlightsFromSource(MOCK_URL).subscribe();
-    expect(cacheManager.set).toHaveBeenCalledWith(MOCK_URL, MOCK_FLIGHTS);
+    expect(cacheManager.set).toHaveBeenCalledWith(MOCK_URL, {
+      flights: MOCK_FLIGHTS,
+    });
+  });
+
+  it('should refresh cache', () => {
+    service.fetchFlightsFromSource(MOCK_URL, true).subscribe();
+
+    expect(cacheManager.reset).toHaveBeenCalledTimes(1);
   });
 });
